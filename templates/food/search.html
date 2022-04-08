@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <title>Search for Restaurant</title>
+  {% include "bootstrap" %}
+  <link rel="stylesheet" href="{%static 'mystyle.css' %}" />
+</head>
+  <body style = "background-image:url({% static 'images/foodsearch.jpg' %});background-size: 1400px;">
+    {% include "navbar.html" %}
+    <div class="col-md-9" style="width:800px; margin:0 auto; color:#555555;">
+      <div class="card card-body" style="background-color: #B7B7B7;">
+        <form method="POST">{% csrf_token %}
+          <table>
+          {{form.as_table}}
+          <tr><td>
+            <input class="btn" type="submit" name="update" value="Find Restaurant" style="background-color: #555555;color:white;">
+          </tr></td>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  {% load static %}
+  {% load post_tags %}
+  <meta charset="utf-8">
+  <title>Flights for you</title>
+  {% include "bootstrap" %}
+  <link rel="stylesheet" href="{%static 'mystyle.css' %}" />
+  <style>
+  .title {
+        display: flex;
+        justify-content: space-between;
+        height: 30px;
+        line-height: 30px;
+        padding: 5px 15px;
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+      </style>
+</head>
+  <body style = "background-image:url({% static 'images/flightsearch.jpg' %});background-size: 1400px;">
+    {% include "navbar.html" %}
+    {% if flights|length == 0 %}
+    <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="jumbotron mt-3 h-100 d-flex flex-column align-items-start" style="padding: 0.6em 1.6em;">
+                  <p style="font-size: 20px;">No flight matching your criteria, sorry!</p>
+                  <a class="btn btn-primary" href="/flights/">Search again</a>
+              </div>
+          </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="container">
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="jumbotron mt-3 h-100 d-flex flex-column align-items-start" style="padding: 0.6em 1.6em;">
+                  <p style="font-size: 20px;">We found {{flights|length}} flights that fit your criteria!</p>
+                  <a class="btn btn-primary" href="/flights/">Search again</a>
+              </div>
+          </div>
+      </div>
+    </div>
+  </br>
+  </br>
+  </br>
+    {% for fl in flights %}
+    <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="jumbotron flex-column " style="padding: 0.6em 1.6em;">
+                  <p><span style="font-size: 22px;">Total Cost: &#36;{% widthratio fl.cost 1 1.1 %}</span> - <span style="font-size: 18px;">No. of Stops {% widthratio fl.stops.all|length 2 1 %}</span></p>
+                  {% for s in fl.stops.all %}
+                  {% if forloop.counter|divisibleby:2 %}
+                  {{s.location}}<span style="display: inline; display:flex;">Depart at: {{fl.dates.all|index:forloop.counter0}} - {{fl.times.all|index1:forloop.counter0}}</span>
+                </br>
+                  {% else %}
+                    {{s.location}} &#8594;
+                  {% endif %}
+                  {% endfor %}
+              </div>
+          </div>
+      </div>
+    </div>
+  </br>
+    {% endfor %}
+    {% endif %}
+  </body>
+</html>
