@@ -27,11 +27,13 @@ urlpatterns = [
     path('join/', core_views.join, name='join'),
     path('login/', core_views.user_login, name='user_login'),
     path('logout/', core_views.user_logout, name='user_logout'),
-    path('about/', core_views.about, name='about'),
+    path('save_res/', food_views.saved_res, name='saved_res'),
     path('settings/', core_views.settings, name='settings'),
     path('restaurants/', food_views.home, name='food_home'),
     path('flights/', flight_views.home, name='flight_home'),
     path('restaurants/results', food_views.results, name='food_results'),
-    path('flights/results', flight_views.results, name='flight_results')
+    path('flights/results', flight_views.results, name='flight_results'),
+    path("save_res/<int:id>", food_views.save, name='save_res'),
+    path("unsave_res/<int:id>", food_views.unsave, name='unsave_res')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

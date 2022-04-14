@@ -11,3 +11,16 @@ class Restaurants(models.Model):
     zip_code = models.IntegerField()
     city = models.CharField(max_length = 255)
     price = models.CharField(max_length=5)
+class CopyRes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length = 255)
+    rating = models.IntegerField()
+    num_reviews = models.IntegerField()
+    url = models.CharField(max_length = 255)
+    address = models.CharField(max_length = 255, null = True)
+    zip_code = models.IntegerField()
+    city = models.CharField(max_length = 255)
+    price = models.CharField(max_length=5)
+class MyRest(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    rest = models.ManyToManyField(CopyRes)

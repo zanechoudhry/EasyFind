@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from food.forms import Search
-from food.models import Restaurants
+from food.models import Restaurants, MyRest, CopyRes
 import requests
 def home(request):
     Restaurants.objects.filter(user=request.user).delete()
@@ -42,3 +42,23 @@ def results(request):
     restaurants = Restaurants.objects.filter(user=request.user)
     context['restaurants'] = restaurants
     return render(request, 'food/results.html',context)
+def save(request,id):
+    restaurants = Restaurants.objects.filter(user=request.user)
+    rest = Restaurants.objects.get(id=id)
+    copyres = CopyRes(user = request.user, name=rest.name, rating=rest.rating,num_reviews=rest.num_reviews,url=rest.url,address=rest.address,
+    zip_code=rest.zip_code,city=rest.city,price=rest.price)
+    copyres.save()
+    myrest, created = MyRest.objects.get_or_create(user=request.user)
+    myrest.rest.add(copyres)
+    context = {'restaurants':restaurants}
+    return render(request, "food/results.html", context)
+def saved_res(request):
+    myrest = MyRest.objects.get(user=request.user)
+    context = {'restaurants':myrest}
+    return render(request, "food/save.html", context)
+def unsave(request,id):
+    cr = CopyRes.objects.get(id=id)
+    cr.delete()
+    myrest = MyRest.objects.get(user=request.user)
+    context = {"restaurants":myrest}
+    return render(request, "food/save.html", context)

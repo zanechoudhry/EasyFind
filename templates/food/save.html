@@ -3,19 +3,18 @@
 <head>
   {% load static %}
   <meta charset="utf-8">
-  <title>Restaurants for you</title>
+  <title>Saved Restaurants</title>
   {% include "bootstrap" %}
   <link rel="stylesheet" href="{%static 'mystyle.css' %}" />
 </head>
   <body style = "background-image:url({% static 'images/foodsearch.jpg' %});background-size: 1400px;">
     {% include "navbar.html" %}
-    {% if restaurants|length == 0 %}
+    {% if restaurants.rest.all|length == 0 %}
     <div class="container">
       <div class="row">
           <div class="col-md-12">
               <div class="jumbotron mt-3 h-100 d-flex flex-column align-items-start" style="padding: 0.6em 1.6em;">
-                  <p style="font-size: 20px;">No food matching your criteria, sorry!</p>
-                  <a class="btn btn-primary" href="/restaurants/">Search again</a>
+                  <p style="font-size: 20px;">No restaurants saved yet!</p>
               </div>
           </div>
       </div>
@@ -25,14 +24,13 @@
       <div class="row">
           <div class="col-sm-12">
               <div class="jumbotron mt-3 h-100 d-flex flex-column align-items-start" style="padding: 0.6em 1.6em;">
-                  <p style="font-size: 20px;">We found {{restaurants|length}} restaurants that fit your criteria!</p>
-                  <a class="btn btn-primary" href="/restaurants/">Search again</a>
+                  <p style="font-size: 20px;">You have saved {{restaurants.rest.all|length}} restaurants so far!</p>
               </div>
           </div>
       </div>
     </div>
   </br>
-    {% for res in restaurants %}
+    {% for res in restaurants.rest.all%}
     <div class="container">
       <div class="row">
           <div class="col-md-12">
@@ -41,7 +39,7 @@
                   <span><p style="font-size: 16px;">Rating:{{res.rating}}</p> <p style="font-size: 16px;">Number of Reviews:{{res.num_reviews}}</p></span>
                   <p style="font-size: 16px;">Prcing:{{res.price}}</p>
                   <p style="font-size: 16px;">URl:<a href='{{res.url}}'>{{res.url}}</a></p>
-                  <a type="submit" class="btn btn-primary" href = "/save_res/{{res.id}}"> Save Restaurant </a>
+                  <a style="margin-left:850px;" class="btn btn-danger"  href = "/unsave_res/{{res.id}}">Unsave Restaurant</a>
               </div>
           </div>
       </div>
