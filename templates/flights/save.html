@@ -4,7 +4,7 @@
   {% load static %}
   {% load post_tags %}
   <meta charset="utf-8">
-  <title>Flights for you</title>
+  <title>Saved Flights</title>
   {% include "bootstrap" %}
   <link rel="stylesheet" href="{%static 'mystyle.css' %}" />
   <style>
@@ -21,13 +21,12 @@
 </head>
   <body style = "background-image:url({% static 'images/flightsearch.jpg' %});background-size: 1400px;">
     {% include "navbar.html" %}
-    {% if flights|length == 0 %}
+    {% if flights.rest.all|length == 0 %}
     <div class="container">
       <div class="row">
           <div class="col-md-12">
               <div class="jumbotron mt-3 h-100 d-flex flex-column align-items-start" style="padding: 0.6em 1.6em;">
-                  <p style="font-size: 20px;">No flight matching your criteria, sorry!</p>
-                  <a class="btn btn-primary" href="/flights/">Search again</a>
+                  <p style="font-size: 20px;">No saved flights yet!</p>
               </div>
           </div>
       </div>
@@ -46,7 +45,7 @@
   </br>
   </br>
   </br>
-    {% for fl in flights %}
+    {% for fl in flights.rest.all %}
     <div class="container">
       <div class="row">
           <div class="col-md-12">
@@ -60,7 +59,7 @@
                     {{s.location}} &#8594;
                   {% endif %}
                   {% endfor %}
-                  <a type="submit" class="btn btn-primary" href = "/save_flight/{{fl.id}}"> Save Flight </a>
+                  <a type="submit" class="btn btn-danger" href = "/unsave_flight/{{fl.id}}"> Unsave Flight </a>
               </div>
           </div>
       </div>

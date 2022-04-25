@@ -13,3 +13,12 @@ class Flights(models.Model):
     times = models.ManyToManyField(Times)
     dates = models.ManyToManyField(Dates)
     stops = models.ManyToManyField(Stops)
+class CopyFlight(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cost = models.CharField(max_length=255)
+    times = models.ManyToManyField(Times)
+    dates = models.ManyToManyField(Dates)
+    stops = models.ManyToManyField(Stops)
+class MyFlight(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    rest = models.ManyToManyField(CopyFlight)

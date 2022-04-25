@@ -3,7 +3,7 @@ from amadeus import Client, ResponseError
 from datetime import datetime, timedelta
 from django.contrib import messages
 from flights.forms import Search
-from flights.models import Flights, Stops, Times, Dates
+from flights.models import Flights, Stops, Times, Dates, MyFlight, CopyFlight
 import requests
 from django import template
 import airportsdata
@@ -79,3 +79,25 @@ def results(request):
     list = zip(date, time, stops)
     context['list'] = list
     return render(request, 'flights/results.html',context)
+def save(request,id):
+    flights = Flights.objects.filter(user=request.user)
+    fli = Flights.objects.get(id=id)
+    copyflight = CopyFlight(user = request.user, cost=fli.cost)
+    copyflight.save()
+    copyflight.times.set(fli.times.all())
+    copyflight.dates.set(fli.dates.all())
+    copyflight.stops.set(fli.stops.all())
+    myrest, created = MyFlight.objects.get_or_create(user=request.user)
+    myrest.rest.add(copyflight)
+    context = {'flights':flights}
+    return render(request, "flights/results.html", context)
+def saved_flight(request):
+    myflight = MyFlight.objects.get(user=request.user)
+    context = {'flights': myflight}
+    return render(request, "flights/save.html", context)
+def unsave(request,id):
+    cr = CopyFlight.objects.get(id=id)
+    cr.delete()
+    myflight = MyFlight.objects.get(user=request.user)
+    context = {"flights":myflight}
+    return render(request, "flights/save.html", context)

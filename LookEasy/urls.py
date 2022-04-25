@@ -28,12 +28,15 @@ urlpatterns = [
     path('login/', core_views.user_login, name='user_login'),
     path('logout/', core_views.user_logout, name='user_logout'),
     path('save_res/', food_views.saved_res, name='saved_res'),
+    path('save_flight/', flight_views.saved_flight, name='saved_flight'),
     path('settings/', core_views.settings, name='settings'),
     path('restaurants/', food_views.home, name='food_home'),
     path('flights/', flight_views.home, name='flight_home'),
     path('restaurants/results', food_views.results, name='food_results'),
     path('flights/results', flight_views.results, name='flight_results'),
     path("save_res/<int:id>", food_views.save, name='save_res'),
-    path("unsave_res/<int:id>", food_views.unsave, name='unsave_res')
+    path("unsave_res/<int:id>", food_views.unsave, name='unsave_res'),
+    path("save_flight/<int:id>", flight_views.save, name='save_flight'),
+    path("unsave_flight/<int:id>", flight_views.unsave, name='unsave_flight')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

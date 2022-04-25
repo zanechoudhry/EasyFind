@@ -13,10 +13,13 @@
       <li class="nav-item">
         <a class="nav-link" href="/flights/">Travel</a>
       </li>
-      {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="/save_res/">Saved Restaurants</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/save_flight/">Saved Flights</a>
+      </li>
+      {% endif %}
     </ul>
     {% if user.is_authenticated %}
     <ul class="navbar-nav ml-auto">
